@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>JS Quiz Application</title>
+</head>
+<body>
+
+  <div id="quiz-container">
+
+    <p id="question"></p>
+    <form id="options">
+      <div id="questionArea">
+      <!--<input id="option1" type="radio" name="answerchoices">
+      <label id="label1" for="option1"></label><br>
+      <input id="option2" type="radio" name="answerchoices">
+      <label id="label2" for="option2"></label><br>
+      <input id="option3" type="radio" name="answerchoices">
+      <label id="label3" for="option3"></label><br>
+      <input id="option4" type="radio" name="answerchoices">
+      <label id="label4" for="option4"></label><br> -->
+      </div>
+      <button id="next-btn" type="button">Next</button>
+    </form>
+  </div>
+
+  <script>
+    var allQuestions = [{
+                          question: "Who is the Prime Minister of the United Kingdom?",
+                          choices: ["David Cameron", "Gordon Brown", "Theresa May", "Boris Johnston"],
+                          correctAnswer: 2
+                        },
+                        {
+                          question: "What is the answer to 6 + 5?",
+                          choices: ["11", "5", "0", "9"],
+                          correctAnswer: 0
+                        },
+                        {
+                          question: "What is the capital city for France?",
+                          choices: ["London", "Ottawa", "Paris", "Berlin"],
+                          correctAnswer: 2
+                        },
+                        {
+                          question: "Are you Happy?",
+                          choices: ["Yes", "No"],
+                          correctAnswer: 1
+                        }
+                        ];
+
+    var index = 0;
+    var points = 0;
+    var quest = document.getElementById("question");
+    //var lbl1 = document.getElementById("label1");
+    //var lbl2 = document.getElementById("label2");
+    //var lbl3 = document.getElementById("label3");
+    //var lbl4 = document.getElementById("label4");
+    var nextbtn = document.getElementById("next-btn");
+    //var inputs = document.getElementsByTagName("input");
+    var questionAreaElem = document.getElementById("questionArea");
+
+    function setUpQuiz() {
+      quest.innerHTML = allQuestions[0].question;
+      //lbl1.innerHTML = allQuestions[0].choices[0];
+      //lbl2.innerHTML = allQuestions[0].choices[1];
+      //lbl3.innerHTML = allQuestions[0].choices[2];
+      //lbl4.innerHTML = allQuestions[0].choices[3];
+      for(var i = 0; i < allQuestions[0].choices.length; i++) {
+        var radioInputElem = document.createElement("input");
+        radioInputElem.setAttribute("id", "option" + i);
+        radioInputElem.setAttribute("type", "radio");
+        radioInputElem.setAttribute("name", "answerchoices");
+        var radioLabelElem = document.createElement("label");
+        var radioLabelText = document.createTextNode(allQuestions[0].choices[i]);
+        radioLabelElem.setAttribute("id", "label" + i);
+        radioLabelElem.setAttribute("for", "option" + i);
+        var lineBreak = document.createElement("BR");
+        radioLabelElem.appendChild(radioLabelText);
+        questionAreaElem.appendChild(radioInputElem);
+        questionAreaElem.appendChild(radioLabelElem);
+        questionAreaElem.appendChild(lineBreak);
+      }
+    }
+
+    function nextQuestion(index) {
+      quest.innerHTML = allQuestions[index].question;
+      //lbl1.innerHTML = allQuestions[index].choices[0];
+      //lbl2.innerHTML = allQuestions[index].choices[1];
+      //lbl3.innerHTML = allQuestions[index].choices[2];
+      //lbl4.innerHTML = allQuestions[index].choices[3];
+      for(var i = 0; i < allQuestions[index].choices.length; i++) {
+        var radioInputElem = document.createElement("input");
+        radioInputElem.setAttribute("id", "option" + i);
+        radioInputElem.setAttribute("type", "radio");
+        radioInputElem.setAttribute("name", "answerchoices");
+        var radioLabelElem = document.createElement("label");
+        var radioLabelText = document.createTextNode(allQuestions[index].choices[i]);
+        radioLabelElem.setAttribute("id", "label" + i);
+        radioLabelElem.setAttribute("for", "option" + i);
+        var lineBreak = document.createElement("BR");
+        radioLabelElem.appendChild(radioLabelText);
+        questionAreaElem.appendChild(radioInputElem);
+        questionAreaElem.appendChild(radioLabelElem);
+        questionAreaElem.appendChild(lineBreak);
+      }
+    }
+
+    function clearOldElements() {
+      while(questionAreaElem.firstChild) {
+        questionAreaElem.removeChild(questionAreaElem.firstChild);
+      }
+    }
+
+    function incrementIndex(index) {
+      index += 1;
+      return index;
+    }
+
+    function checkAnswer(index) {
+      var inputs = document.getElementsByTagName("input");
+      if(inputs[allQuestions[index].correctAnswer].checked) {
+        points += 1;
+      }
+
+      alert("You have " + points + " points ");
+    }
+
+    nextbtn.onclick = function(event) {
+      checkAnswer(index);
+      index = incrementIndex(index);
+      if(index < allQuestions.length) {
+        clearOldElements();
+        nextQuestion(index);
+      } else {
+        alert("You have completed the quiz!  Your final score is: " + points);
+      }
+    }
+
+    setUpQuiz();
+
+  </script>
+</body>
