@@ -24,6 +24,8 @@
       <button id="next-btn" type="button">Next</button>
     </form>
   </div>
+ <!-- Need to add jquery script -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
   <script>
     var allQuestions = [{
@@ -59,6 +61,9 @@
     //var inputs = document.getElementsByTagName("input");
     var questionAreaElem = document.getElementById("questionArea");
 
+    /**
+     *  Method to setup initial quiz
+     */
     function setUpQuiz() {
       quest.innerHTML = allQuestions[0].question;
       //lbl1.innerHTML = allQuestions[0].choices[0];
@@ -125,15 +130,35 @@
       alert("You have " + points + " points ");
     }
 
-    nextbtn.onclick = function(event) {
-      checkAnswer(index);
-      index = incrementIndex(index);
-      if(index < allQuestions.length) {
-        clearOldElements();
-        nextQuestion(index);
-      } else {
-        alert("You have completed the quiz!  Your final score is: " + points);
+    function checkQuestionAnswered() {
+      let questionAnswered = false;
+      $('input[type="radio"]').each(function() {
+          let checked = this.checked;
+          if(checked) {
+            questionAnswered = true;
+          }
+      })
+
+      if (!questionAnswered) {
+        alert("Please answer the question");
+        return false;
       }
+      return true;
+    }
+
+    nextbtn.onclick = function(event) {
+      // Add client side validation
+      if(checkQuestionAnswered()) {
+        checkAnswer(index);
+        index = incrementIndex(index);
+        if(index < allQuestions.length) {
+          clearOldElements();
+          nextQuestion(index);
+        } else {
+          alert("You have completed the quiz!  Your final score is: " + points);
+        }
+      }
+
     }
 
     setUpQuiz();
